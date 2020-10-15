@@ -1,6 +1,7 @@
 from django.test import TestCase
 from .usecase import BaseUsecase
 from .models import User, Group, Card, Review
+from datetime import datetime, timedelta
 
 
 class UsecaseTestCase(TestCase):
@@ -56,3 +57,13 @@ class UsecaseTestCase(TestCase):
         BaseUsecase.answer_review_question_and_pick_next(review.id, 123)
         question = BaseUsecase.answer_review_question_and_pick_next(review.id, 123)
         self.assertEqual(question, None)
+
+    def test_pick_older_card(self):
+        user = User.objects.create()
+        group = Group.objects.create(user=user)
+        Card.objects.create(group=group, question="q1", answer="a2", last_reviewd_at=datetime.utcnow())
+        Card.objects.create(group=group, question="q2", answer="a2",
+                            last_reviewd_at=datetime.utcnow()-timedelta(days=1))
+        review = Review.objects.create(user=user, group=group, target_amount=30)
+        question = BaseUsecase.pick_question(review.id)
+        self.assertEqual(question, "q2")
