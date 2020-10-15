@@ -6,19 +6,13 @@ from .models import User, Group, Card, Review
 class UsecaseTestCase(TestCase):
     def test_create_user(self):
         user = BaseUsecase.create_user()
-        self.assertNotEqual(user, None)
+        self.assertIsInstance(user, User)
 
     def test_create_group(self):
         user = User.objects.create()
         group = BaseUsecase.create_group(user.id, "g")
         self.assertEqual(group.name, "g")
         self.assertEqual(group.user_id, user.id)
-
-    def test_create_group_fail(self):
-        self.assertRaises(User.DoesNotExist,
-                          BaseUsecase.create_group,
-                          user_id="fake_user_id",
-                          group_name="g")
 
     def test_create_card(self):
         user = User.objects.create()
@@ -30,5 +24,35 @@ class UsecaseTestCase(TestCase):
 
     def test_start_review(self):
         user = User.objects.create()
-        review = BaseUsecase.start_review(user.id)
+        group = Group.objects.create(user=user)
+        review = BaseUsecase.start_review(group.id, 30)
         self.assertIsInstance(review, Review)
+        self.assertEqual(review.target_amount, 30)
+
+    def test_pick_question(self):
+        user = User.objects.create()
+        group = Group.objects.create(user=user)
+        Card.objects.create(group=group, question="q", answer="a")
+        review = Review.objects.create(user=user, group=group, target_amount=30)
+        question = BaseUsecase.pick_question(review.id)
+        self.assertEqual(question, "q")
+
+    def test_answer_review_pick_next_question(self):
+        user = User.objects.create()
+        group = Group.objects.create(user=user)
+        card = Card.objects.create(group=group, question="q", answer="a")
+        review = Review.objects.create(user=user, group=group, target_amount=30, card=card)
+        question = BaseUsecase.answer_review_pick_next_question(review.id, 123)
+        self.assertEqual(question, "q")
+
+        review.refresh_from_db()
+        self.assertEqual(review.current_amount, 1)
+
+    def test_review_pick_until_finish(self):
+        user = User.objects.create()
+        group = Group.objects.create(user=user)
+        card = Card.objects.create(group=group, question="q", answer="a")
+        review = Review.objects.create(user=user, group=group, target_amount=2, card=card)
+        BaseUsecase.answer_review_pick_next_question(review.id, 123)
+        question = BaseUsecase.answer_review_pick_next_question(review.id, 123)
+        self.assertEqual(question, None)

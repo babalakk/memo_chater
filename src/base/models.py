@@ -19,14 +19,15 @@ class Card(models.Model):
     id = models.CharField(primary_key=True, max_length=128, default=uuid4)
     question = models.CharField(null=False, max_length=1024)
     answer = models.CharField(null=False, max_length=1024)
-    created_at = models.DateTimeField(auto_now_add=True)
-    last_review_at = models.DateTimeField(null=True)
+    last_reviewd_at = models.DateTimeField(null=True)
 
 
 class Review(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
+    group = models.ForeignKey(Group, on_delete=models.CASCADE)
+    card = models.ForeignKey(Card, on_delete=models.CASCADE, null=True)
 
     id = models.CharField(primary_key=True, max_length=128, default=uuid4)
-    target_amount = models.Integer(null=False)
-    current_amount = models.Integer(null=False, default=0)
-    created_at = models.DateTimeField(auto_now_add=True)
+    target_amount = models.IntegerField(null=False)
+    current_amount = models.IntegerField(null=False, default=0)
+    is_ended = models.BooleanField(default=False)
