@@ -8,6 +8,8 @@ class BaseUsecase:
         return user
 
     def create_group(user_id, group_name):
+        if Group.objects.filter(user_id=user_id, name=group_name).first():
+            raise Exception("group name already exists")
         return Group.objects.create(user_id=user_id, name=group_name)
 
     def create_card(group_id, question, answer):
@@ -31,12 +33,12 @@ class BaseUsecase:
     @classmethod
     def pick_question(cls, review_id):
         review = Review.objects.get(pk=review_id)
-        card = cls.__pick_card(review.group_id)
+        card = cls.__choose_card(review.group_id)
         review.card = card
         review.save()
         return card.question
 
-    def __pick_card(group_id):
+    def __choose_card(group_id):
         card = Card.objects.filter(group_id=group_id).first()
         return card
 
@@ -46,15 +48,14 @@ class BaseUsecase:
         return card.answer
 
     @classmethod
-    def answer_review_pick_next_question(cls, review_id, value):
+    def answer_review_question_and_pick_next(cls, review_id, value):
         review = Review.objects.get(pk=review_id)
         Card.objects.filter(pk=review.card_id).update(last_reviewd_at=datetime.utcnow())
 
         review.current_amount = review.current_amount+1
+        review.save()
+
         if review.current_amount >= review.target_amount:
             cls.end_review(review.id)
         else:
-            new_card = cls.__pick_card(review.group_id)
-            review.card = new_card
-            review.save()
-            return new_card.question
+            return cls.pick_question(review.id)

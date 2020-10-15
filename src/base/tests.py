@@ -37,12 +37,12 @@ class UsecaseTestCase(TestCase):
         question = BaseUsecase.pick_question(review.id)
         self.assertEqual(question, "q")
 
-    def test_answer_review_pick_next_question(self):
+    def test_answer_review_question_and_pick_next(self):
         user = User.objects.create()
         group = Group.objects.create(user=user)
         card = Card.objects.create(group=group, question="q", answer="a")
         review = Review.objects.create(user=user, group=group, target_amount=30, card=card)
-        question = BaseUsecase.answer_review_pick_next_question(review.id, 123)
+        question = BaseUsecase.answer_review_question_and_pick_next(review.id, 123)
         self.assertEqual(question, "q")
 
         review.refresh_from_db()
@@ -53,6 +53,6 @@ class UsecaseTestCase(TestCase):
         group = Group.objects.create(user=user)
         card = Card.objects.create(group=group, question="q", answer="a")
         review = Review.objects.create(user=user, group=group, target_amount=2, card=card)
-        BaseUsecase.answer_review_pick_next_question(review.id, 123)
-        question = BaseUsecase.answer_review_pick_next_question(review.id, 123)
+        BaseUsecase.answer_review_question_and_pick_next(review.id, 123)
+        question = BaseUsecase.answer_review_question_and_pick_next(review.id, 123)
         self.assertEqual(question, None)
