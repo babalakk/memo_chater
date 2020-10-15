@@ -39,7 +39,7 @@ class BaseUsecase:
         return card.question
 
     def __choose_card(group_id):
-        card = Card.objects.filter(group_id=group_id).first()
+        card = Card.objects.filter(group_id=group_id).order_by("last_reviewd_at").first()
         return card
 
     def get_answer(review_id):
