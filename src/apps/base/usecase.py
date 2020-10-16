@@ -18,7 +18,6 @@ class ManageUsecase:
 
 
 class ReviewUsecase:
-
     def get_current_review(user_id):
         return Review.objects.filter(user_id=user_id, is_ended=False).first()
 
