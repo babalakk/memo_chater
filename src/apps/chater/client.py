@@ -36,7 +36,7 @@ class Chater:
             group_name_buttons = [button(text=f"{CMD_REVIEW_GROUP} {g.name}", title=g.name) for g in groups]
             bot.send_button_message(
                 recipient_id=user.fb_id,
-                text="Choose group to review",
+                text="Choose group to review.",
                 buttons=group_name_buttons
             )
         else:
@@ -46,16 +46,17 @@ class Chater:
 
     def create_group(user, params):
         group = ManageUsecase.create_group(user.id, params[0])
-        bot.send_text_message(recipient_id=user.fb_id, message=f"Group '{group.name}' created")
+        bot.send_text_message(
+            recipient_id=user.fb_id, message=f"Group '{group.name}' created, Type '{CMD_ADD_CARD} {group.name} [question] [answer]' to create new card.")
 
     def delete_group(user, params):
         Group.objects.filter(user_id=user.id, name=params[0]).delete()
-        bot.send_text_message(recipient_id=user.fb_id, message=f"Group '{params[0]}' deleted")
+        bot.send_text_message(recipient_id=user.fb_id, message=f"Group '{params[0]}' deleted.")
 
     def add_card(user, params):
         group = Group.objects.filter(user_id=user.id, name=params[0]).first()
         card = Card.objects.create(group_id=group.id, question=params[1], answer=params[2])
-        bot.send_text_message(recipient_id=user.fb_id, message=f"Card created")
+        bot.send_text_message(recipient_id=user.fb_id, message=f"Card created.")
 
     @classmethod
     def review_group(cls, user, params):
