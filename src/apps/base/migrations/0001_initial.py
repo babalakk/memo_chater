@@ -2,7 +2,7 @@
 
 from django.db import migrations, models
 import django.db.models.deletion
-import memo_chater.tools
+import core.tools
 
 
 class Migration(migrations.Migration):
@@ -16,7 +16,7 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Card',
             fields=[
-                ('id', models.CharField(default=memo_chater.tools.uuid4, max_length=128, primary_key=True, serialize=False)),
+                ('id', models.CharField(default=core.tools.uuid4, max_length=128, primary_key=True, serialize=False)),
                 ('question', models.CharField(max_length=1024)),
                 ('answer', models.CharField(max_length=1024)),
                 ('last_reviewd_at', models.DateTimeField(null=True)),
@@ -25,20 +25,20 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Group',
             fields=[
-                ('id', models.CharField(default=memo_chater.tools.uuid4, max_length=128, primary_key=True, serialize=False)),
+                ('id', models.CharField(default=core.tools.uuid4, max_length=128, primary_key=True, serialize=False)),
                 ('name', models.CharField(default='default', max_length=256)),
             ],
         ),
         migrations.CreateModel(
             name='User',
             fields=[
-                ('id', models.CharField(default=memo_chater.tools.uuid4, max_length=128, primary_key=True, serialize=False)),
+                ('id', models.CharField(default=core.tools.uuid4, max_length=128, primary_key=True, serialize=False)),
             ],
         ),
         migrations.CreateModel(
             name='Review',
             fields=[
-                ('id', models.CharField(default=memo_chater.tools.uuid4, max_length=128, primary_key=True, serialize=False)),
+                ('id', models.CharField(default=core.tools.uuid4, max_length=128, primary_key=True, serialize=False)),
                 ('target_amount', models.IntegerField()),
                 ('current_amount', models.IntegerField(default=0)),
                 ('is_ended', models.BooleanField(default=False)),

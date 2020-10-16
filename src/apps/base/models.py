@@ -1,5 +1,5 @@
 from django.db import models
-from memo_chater.tools import uuid4
+from core.tools import uuid4
 
 
 class User(models.Model):
