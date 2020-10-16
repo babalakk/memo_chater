@@ -4,6 +4,7 @@ from core.tools import uuid4
 
 class User(models.Model):
     id = models.CharField(primary_key=True, max_length=128, default=uuid4)
+    fb_id = models.CharField(null=True, unique=True, max_length=128)
 
 
 class Group(models.Model):

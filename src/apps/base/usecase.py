@@ -23,8 +23,11 @@ class ReviewUsecase:
 
     @classmethod
     def start_review(cls, group, target_amount=20):
-        if cls.get_current_review(group.user_id):
-            raise Exception("unfinished review exists")
+        exist_review = cls.get_current_review(group.user_id)
+        if exist_review:
+            exist_review.is_ended = True
+            exist_review.save()
+            print("unfinished review exists")
         review = Review.objects.create(user_id=group.user_id, group=group, target_amount=target_amount)
         return review
 

@@ -23,7 +23,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = '-g!pbsk!)tstjf&xhvj&b-+_)+zeqq8)*@xq51=9r$da!($@_!'
 
 # 測試用粉專3.0
-FB_PAGE_TOKEN = "EAAH57ebPFjsBAIwLoQ3WtkbaZBCfKtycoWf122ohvqrW8GZBu3DLz8O4ZCAampsjpl9NB4U3HVCeOKAjxKZA6ZCd56khuOsmYkAQ0zAhYwIw0EFEFFu8kXVpZCIHw5kHZCeNJWd4H6vm59WSKPEttPOQyi6ZCP4mHGk1ZBHowZCylGGKO2ONHHzmHkmTOeblD26cIZD"
+FB_PAGE_TOKEN = "EAAGCZCrevgecBAK7ZA5RZAf5vccTqkxzUTVXIlDRDBhozcx6ODlhPwKj1IpccmtTtbsdeReTR6b7FY0wDnvFNNwj8BBpMOeN71vTf6CxfK7ZBc3Yh6OTS00MWNTRQZBlCBtQ1mr1ArErIZAhzFGpmY2Nypb0bLgcQDH2cyRTOegwZDZD"
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
