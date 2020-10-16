@@ -57,7 +57,7 @@ class ReviewUsecase:
         else:
             return cls.pick_question(review)
 
-    def evaluate(review, card,  value):
+    def evaluate(review, card, value):
         card.last_reviewd_at = datetime.utcnow()
         card.save()
         review.current_amount = review.current_amount+1
