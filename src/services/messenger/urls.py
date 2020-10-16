@@ -22,7 +22,8 @@ def root(request):
                 text = data.get("entry")[0].get("messaging")[0].get("postback").get("payload")
             else:
                 text = data.get("entry")[0].get("messaging")[0].get("message").get("text")
-            Chater.chat(recipient_id=recipient_id, text=text)
+            if recipient_id and text:
+                Chater.chat(recipient_id=recipient_id, text=text)
     except Exception as e:
         traceback.print_exc()
     return HttpResponse("OK")

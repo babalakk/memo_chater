@@ -13,8 +13,14 @@ class ManageUsecase:
         return Group.objects.create(user_id=user_id, name=group_name)
 
     def create_card(group_id, question, answer):
+        if Card.objects.filter(group_id=group_id, question=question).first():
+            raise Exception("card with same question already exists")
         card = Card.objects.create(group_id=group_id, question=question, answer=answer)
         return card
+
+    def delete_card(card_id):
+        Review.objects.filter(card_id=card_id).update(card_id=None)
+        Card.objects.filter(id=card_id).delete()
 
 
 class ReviewUsecase:
@@ -37,6 +43,8 @@ class ReviewUsecase:
     @classmethod
     def pick_question(cls, review):
         card = cls.__choose_card(review.group_id)
+        if not card:
+            return None
         review.card = card
         review.save()
         return card.question
