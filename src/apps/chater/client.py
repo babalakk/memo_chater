@@ -1,4 +1,3 @@
-import re
 from django.conf import settings
 from pymessenger.bot import Bot
 from apps.base.models import User, Group, Card, Review
