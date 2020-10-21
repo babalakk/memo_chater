@@ -1,5 +1,5 @@
 from django.db import models
-from core.tools import uuid4
+from infra.tools import uuid4
 
 
 class User(models.Model):

@@ -1,7 +1,7 @@
 from django.conf import settings
 from pymessenger.bot import Bot
-from apps.base.models import User, Group, Card, Review
-from apps.base.usecase import ManageUsecase, ReviewUsecase
+from apps.core.models import User, Group, Card, Review
+from apps.core.usecase import ManageUsecase, ReviewUsecase
 
 bot = Bot(settings.FB_PAGE_TOKEN)
 

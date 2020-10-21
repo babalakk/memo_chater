@@ -4,7 +4,7 @@ from .models import User, Group, Card, Review
 from datetime import datetime, timedelta
 
 
-class BaseUsecaseTestCase(TestCase):
+class CoreUsecaseTestCase(TestCase):
     def test_create_user(self):
         user = ManageUsecase.create_user()
         self.assertIsInstance(user, User)
